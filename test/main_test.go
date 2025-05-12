@@ -27,7 +27,7 @@ func TestAdd(t *testing.T) {
 func ExampleAdd() {
 	fmt.Println(Add(2, 3))
 	// Output:
-	// 7
+	// 5
 }
 
 func BenchmarkAdd(b *testing.B) {
