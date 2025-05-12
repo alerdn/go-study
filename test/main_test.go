@@ -1,15 +1,37 @@
-package main
+package test
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestAdd(t *testing.T) {
-	totalExpected := 10
-	valueA := 5
-	valueB := 5
+	type test struct {
+		data   []int
+		answer int
+	}
 
-	total := Add(valueA, valueB)
-	
-	if total != totalExpected {
-		t.Errorf("Sum was incorrect, got %d, expected %d", total, totalExpected)
+	tests := []test{
+		{[]int{5, 5}, 10},
+		{[]int{5, 3}, 8},
+	}
+
+	for _, test := range tests {
+		sum := Add(test.data[0], test.data[1])
+		if sum != test.answer {
+			t.Error("Expected", test.answer, "Got", sum)
+		}
+	}
+}
+
+func ExampleAdd() {
+	fmt.Println(Add(2, 3))
+	// Output:
+	// 7
+}
+
+func BenchmarkAdd(b *testing.B) {
+	for b.Loop() {
+		Add(5, 5)
 	}
 }

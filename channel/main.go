@@ -1,3 +1,4 @@
+// Package main estuda channel
 package main
 
 import (
@@ -14,14 +15,14 @@ func main() {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
-	go sender(even, odd, quit)
+	go Sender(even, odd, quit)
 	go receiver(even, odd, quit, &wg)
 
 	wg.Wait()
 }
 
-// Canal unidimensional onde enviamos dados para ele
-func sender(even, odd, quit chan<- int) {
+// Sender Canal unidimensional onde enviamos dados para ele
+func Sender(even, odd, quit chan<- int) {
 	for i := range 10 {
 		if i%2 == 0 {
 			even <- i
