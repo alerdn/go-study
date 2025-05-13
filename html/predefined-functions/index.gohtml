@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {{range $index, $value := .}}
+    <p>{{$index}} - {{$value}}</p>
+    {{end}}
+
+    <p>{{index . 2}}</p>
+    <p>{{index . 0}}</p>
+    <p>{{index . 1}}</p>
+
+    {{$pai := index . 0}}
+    {{$mae := index . 1}}
+    {{$filha := index . 2}}
+    
+    {{if gt $pai.Age $mae.Age }}
+    <p>Pai é mais velho que a mãe</p>
+    {{else}}
+    <p>Mãe é mais velha que o pai</p>
+    {{end}}
+</body>
+</html>
