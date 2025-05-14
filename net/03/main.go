@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"time"
 )
 
 func main() {
@@ -12,27 +13,29 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
-	defer server.Close()
 
 	for {
 		conn, err := server.Accept()
 		if err != nil {
-			log.Println(err)
+			fmt.Println(err)
 		}
-
-		// goroutine para lidar com mais de uma requisição
 		go handle(conn)
 	}
 }
 
 func handle(conn net.Conn) {
+	err := conn.SetDeadline(time.Now().Add(10 * time.Second))
+	if err != nil {
+		log.Println("Connection timeout")
+	}
+
 	scanner := bufio.NewScanner(conn)
 	for scanner.Scan() {
-		ln := scanner.Text()
-		fmt.Println(ln)
-		fmt.Fprintf(conn, "I heard you say: %s\n", ln)
+		line := scanner.Text()
+		fmt.Println(line)
+		fmt.Fprintf(conn, "$ %s", line)
 	}
 	defer conn.Close()
 
-	fmt.Println("O código nunca vai chegar aqui porque fica no loop infinito da connection")
+	fmt.Println("Código chega aqui porque existe o timeout")
 }
